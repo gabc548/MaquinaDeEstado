@@ -9,22 +9,34 @@ bool checkSequence(char *str){
 
     ptr = fopen("Entrada.txt", "r");
 
-    char c;
+    if(ptr == NULL){
+        return false;
+    }
+
+    char c, prev = '\0';
 
     c = fgetc(ptr);
 
     while(!feof(ptr)){
-        if(c == str[state]){
+        if(c == str[state] && (prev == '\0' || prev == ' ' || prev == '\n' || state > 0)){
             state++;
         } else {
-            state = c == str[state] ? 1 : 0;
+            state = 0;
         }
 
         if(state == strlen(str) - 1){
-            return true;
+            prev = c;
+            c = fgetc(ptr);
+            if(c == ' ' || c == '\n' || c == '.' || c == ',' || c == '!' || c == '?' || c == ';' || c == ':' || feof(ptr)){
+                return true;
+            } else {
+                state = 0;
+            }
+        } else {
+            prev = c;
+            c = fgetc(ptr);
         }
 
-        c = fgetc(ptr);
     }
 
     fclose(ptr);
