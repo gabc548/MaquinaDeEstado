@@ -28,6 +28,7 @@ bool checkSequence(char *str){
             prev = c;
             c = fgetc(ptr);
             if(c == ' ' || c == '\n' || c == '.' || c == ',' || c == '!' || c == '?' || c == ';' || c == ':' || feof(ptr)){
+                fclose(ptr);
                 return true;
             } else {
                 state = 0;
